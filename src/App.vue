@@ -7,14 +7,17 @@
       <li v-for="film in store.films" :key="film.id">
         {{ film.title }} <br>
         {{ film.original_title }} <br>
-        <img :src="getImagePath(film.original_language)" :alt="film.title"><br>
+        <img :src="getImagePath(film.original_language)" :alt="film.original_language"><br>
         {{ film.vote_average }}
       </li>
     </ul>
     <h2>series</h2>
     <ul>
       <li v-for="serie in store.series">
-        {{ serie.name }}
+        {{ serie.name }} <br>
+        {{ serie.original_name }} <br>
+        <img :src="getImagePath(serie.original_language)" :alt="serie.original_language"> <br>
+        {{ serie.vote_average }}
       </li>
     </ul>
   </div>
@@ -35,9 +38,6 @@ export default {
     }
   },
 
-  computed: {
-
-  },
 
   methods: {
     getImagePath(lang) {
@@ -52,6 +52,7 @@ export default {
       }
     },
 
+
     fetchFilms(url) {
       axios.get(url).then((res) => {
         store.films = res.data.results
@@ -61,14 +62,14 @@ export default {
     fetchSeries(url) {
       axios.get(url).then((res) => {
         store.series = res.data.results
-        console.log(store.films)
+        console.log(store.series)
       })
     },
 
     onSearchTerm(term) {
       this.filteredTerm = term;
-      const filterEndpointFilms = `${endPointFilms}?api_key=${api_key}&query=${this.filteredTerm}`
-      const filterEndpointSeries = `${endPointSeries}?api_key=${api_key}&query=${this.filteredTerm}`
+      const filterEndpointFilms = `${endPointFilms}?api_key=${api_key}&query=${this.filteredTerm}&language=it`
+      const filterEndpointSeries = `${endPointSeries}?api_key=${api_key}&query=${this.filteredTerm}&language=it`
       this.fetchFilms(filterEndpointFilms)
       this.fetchSeries(filterEndpointSeries)
     },
