@@ -1,7 +1,7 @@
 <template>
   <div>
     <input type="text" v-model="searchTerm">
-    <button @click="onSearchTerm">Cerca</button>
+    <button @click="onSearchTerm(searchTerm)">Cerca</button>
     <ul>
       <li></li>
     </ul>
@@ -17,6 +17,7 @@ export default {
   data() {
     return {
       searchTerm: '',
+      filteredTerm: '',
     }
   },
 
@@ -25,13 +26,14 @@ export default {
     fetchFilms(url) {
       axios.get(url).then((res) => {
         store.films = res.data.results
+        console.log(store.films)
       })
     },
 
-    onSearchTerm() {
-      const filterEndpoint = `${endPointFilms}?api_key=${api_key}&query=${this.searchTerm}`
+    onSearchTerm(term) {
+      this.filteredTerm = term;
+      const filterEndpoint = `${endPointFilms}?api_key=${api_key}&query=${this.filteredTerm}`
       this.fetchFilms(filterEndpoint)
-      console.log(store.films)
     },
   }
 }
