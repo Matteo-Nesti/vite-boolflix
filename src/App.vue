@@ -3,7 +3,12 @@
     <input type="text" v-model="searchTerm">
     <button @click="onSearchTerm(searchTerm)">Cerca</button>
     <ul>
-      <li></li>
+      <li v-for="film in store.films" :key="film.id">
+        {{ film.title }} <br>
+        {{ film.original_title }} <br>
+        <img :src="getImagePath(film.original_language)" :alt="film.title"><br>
+        {{ film.vote_average }}
+      </li>
     </ul>
   </div>
 </template>
@@ -16,13 +21,29 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      store,
       searchTerm: '',
       filteredTerm: '',
     }
   },
 
+  computed: {
+
+  },
 
   methods: {
+    getImagePath(lang) {
+      if (lang === 'it') {
+        return '../src/assets/img/it.png'
+      }
+      else if (lang === 'en') {
+        return '../src/assets/img/en.png'
+      }
+      else {
+        return ''
+      }
+    },
+
     fetchFilms(url) {
       axios.get(url).then((res) => {
         store.films = res.data.results
