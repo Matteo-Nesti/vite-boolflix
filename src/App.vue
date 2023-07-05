@@ -12,6 +12,7 @@
         <img :src="getThumbimage(film.poster_path)" :alt="film.title">
       </li>
     </ul>
+
     <h2>series</h2>
     <ul>
       <li v-for="serie in store.series">
@@ -19,6 +20,7 @@
         Titolo originale: {{ serie.original_name }} <br>
         <img :src="getImagePath(serie.original_language)" :alt="serie.original_language"> <br>
         Voto: {{ serie.vote_average }}
+        <img :src="getThumbimage(serie.poster_path)" :alt="serie.title">
       </li>
     </ul>
   </div>
