@@ -1,9 +1,11 @@
 <template>
   <div>
-    <AppHeader @term-change="onSearchTerm" @submit="onSubmit" />
+    <AppHeader @term-change="onSearchTerm" @submit-button="onSubmit" />
     <!-- <input type="text" v-model="searchTerm" @keyup.enter="onSearchTerm(searchTerm)">
     <button @click="onSearchTerm(searchTerm)">Cerca</button> -->
-    <h2>films</h2>
+    <AppMain />
+    <!-- <h2>films</h2>
+
     <ul v-for="film in store.films" :key="film.id">
       <li> {{ film.title }} </li>
       <li> {{ film.original_title }} </li>
@@ -13,15 +15,18 @@
       <li>
         <img :src="getThumbimage(film.poster_path)" :alt="film.title">
       </li>
+      <li> {{ film.vote_average }} </li>
     </ul>
 
     <h2>series</h2>
     <ul v-for="serie in store.series" :key="serie.id">
       <li>{{ serie.name }}</li>
       <li>{{ serie.original_name }}</li>
-      <li><img :src="getImagePath(serie.original_language)" :alt="serie.original_language"></li>
+      <li>
+        <img :src="getImagePath(serie.original_language)" :alt="serie.original_language">
+      </li>
       <li>{{ serie.vote_average }}</li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
@@ -34,8 +39,9 @@ const api_key = 'f54a6d440796635ebf443de82f3b42de'
 import { store } from './components/data/store.js';
 import axios from 'axios';
 import AppHeader from './components/AppHeader.vue'
+import AppMain from './components/AppMain.vue'
 export default {
-  components: { AppHeader },
+  components: { AppHeader, AppMain },
   data() {
     return {
       store,
@@ -45,21 +51,6 @@ export default {
 
 
   methods: {
-    getImagePath(lang) {
-      if (lang === 'it') {
-        return '../src/assets/img/it.png'
-      }
-      else if (lang === 'en') {
-        return '../src/assets/img/en.png'
-      }
-      else {
-        return ''
-      }
-    },
-    getThumbimage(url) {
-      return imageThumb + 'w342' + url
-    },
-
     fetchFilms(url) {
       axios.get(url).then((res) => {
         store.films = res.data.results

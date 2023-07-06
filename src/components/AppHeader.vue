@@ -1,11 +1,11 @@
 <template lang="">
-  <SearchBar @term-change="onSearchTerm" @submit="onSubmit" />
+  <SearchBar @term-change="onSearchTerm" @submit-button="onSubmit" />
 </template>
 
 <script>
 import SearchBar from './SearchBar.vue';
 export default {
-    emits: ['term-change', 'submit'],
+    emits: ['term-change', 'submit-button'],
     components: { SearchBar },
     data() {
         return {
@@ -18,7 +18,7 @@ export default {
         },
 
         onSubmit() {
-            this.$emit('submit')
+            this.$emit('submit-button')
         }
     },
 }
