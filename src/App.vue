@@ -1,27 +1,26 @@
 <template>
   <div>
-    <input type="text" v-model="searchTerm" @keyup.enter="onSearchTerm(searchTerm)">
-    <button @click="onSearchTerm(searchTerm)">Cerca</button>
+    <AppHeader @term-change="onSearchTerm" @submit="onSubmit" />
+    <!-- <input type="text" v-model="searchTerm" @keyup.enter="onSearchTerm(searchTerm)">
+    <button @click="onSearchTerm(searchTerm)">Cerca</button> -->
     <h2>films</h2>
-    <ul>
-      <li v-for="film in store.films" :key="film.id">
-        Titolo: {{ film.title }} <br>
-        Titolo originale: {{ film.original_title }} <br>
-        <img :src="getImagePath(film.original_language)" :alt="film.original_language"><br>
-        Voto: {{ film.vote_average }}
+    <ul v-for="film in store.films" :key="film.id">
+      <li> {{ film.title }} </li>
+      <li> {{ film.original_title }} </li>
+      <li>
+        <img :src="getImagePath(film.original_language)" :alt="film.original_language">
+      </li>
+      <li>
         <img :src="getThumbimage(film.poster_path)" :alt="film.title">
       </li>
     </ul>
 
     <h2>series</h2>
-    <ul>
-      <li v-for="serie in store.series">
-        Titolo: {{ serie.name }} <br>
-        Titolo originale: {{ serie.original_name }} <br>
-        <img :src="getImagePath(serie.original_language)" :alt="serie.original_language"> <br>
-        Voto: {{ serie.vote_average }}
-        <img :src="getThumbimage(serie.poster_path)" :alt="serie.title">
-      </li>
+    <ul v-for="serie in store.series" :key="serie.id">
+      <li>{{ serie.name }}</li>
+      <li>{{ serie.original_name }}</li>
+      <li><img :src="getImagePath(serie.original_language)" :alt="serie.original_language"></li>
+      <li>{{ serie.vote_average }}</li>
     </ul>
   </div>
 </template>
@@ -34,11 +33,12 @@ const api_key = 'f54a6d440796635ebf443de82f3b42de'
 
 import { store } from './components/data/store.js';
 import axios from 'axios';
+import AppHeader from './components/AppHeader.vue'
 export default {
+  components: { AppHeader },
   data() {
     return {
       store,
-      searchTerm: '',
       filteredTerm: '',
     }
   },
@@ -75,11 +75,14 @@ export default {
 
     onSearchTerm(term) {
       this.filteredTerm = term;
+    },
+
+    onSubmit() {
       const filterEndpointFilms = `${endPointFilms}?api_key=${api_key}&query=${this.filteredTerm}&language=it`
       const filterEndpointSeries = `${endPointSeries}?api_key=${api_key}&query=${this.filteredTerm}&language=it`
       this.fetchFilms(filterEndpointFilms)
       this.fetchSeries(filterEndpointSeries)
-    },
+    }
   }
 }
 </script>
