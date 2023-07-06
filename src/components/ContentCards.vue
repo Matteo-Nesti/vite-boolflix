@@ -12,7 +12,7 @@
             :src="getThumbimage(item.poster_path)" 
             :alt="item.title || item.name">
         </li>
-        <li> {{ item.vote_average}} </li>
+        <li> {{ convertVote(item.vote_average) }} </li>
       </ul>
 </template>
 
@@ -27,6 +27,15 @@ export default {
         }
     },
     methods: {
+        convertVote(vote) {
+            const wholeNumber = Math.round(vote)
+            const newRange = Math.ceil(wholeNumber / 2)
+            if (newRange == 4) {
+                return '<font-awesome-icon icon="fa-solid fa-star" />'
+            }
+            return newRange;
+        },
+
         getImagePath(lang) {
             if (lang === 'it') {
                 return '../src/assets/img/it.png'
@@ -35,7 +44,7 @@ export default {
                 return '../src/assets/img/en.png'
             }
             else {
-                return ''
+                return lang
             }
         },
         getThumbimage(url) {
