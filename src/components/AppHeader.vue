@@ -1,5 +1,8 @@
-<template lang="">
-  <SearchBar @term-change="onSearchTerm" @submit-button="onSubmit" />
+<template>
+    <header>
+        <h1>BoolFlix</h1>
+        <SearchBar @term-change="onSearchTerm" @submit-button="onSubmit" />
+    </header>
 </template>
 
 <script>
@@ -24,6 +27,18 @@ export default {
 }
 </script>
 
-<style lang="">
-    
+<style lang="scss" scoped>
+header {
+    height: 80px;
+    background-color: rgb(68, 68, 68);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    color: red;
+}
+
+h1 {
+    cursor: pointer;
+}
 </style>
